@@ -10,38 +10,46 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header id="navAuth"></header>
+  <!-- Sign-in gate: shown only when not signed in -->
+  <div id="signinPage" class="signin-page">
+    <div class="signin-box">
+      <h1 class="signin-title">Gym Workout Tracker</h1>
+      <p class="signin-subtitle">Sign in to continue</p>
+      <button type="button" class="btn btn-primary btn-signin" id="signinPageBtn">Sign in with Google</button>
+    </div>
+  </div>
 
-  <main>
-    <h1>Gym Workout Tracker</h1>
-    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-      Track your exercises and log your workouts. Stay consistent, get stronger.
-    </p>
-
-    <div class="card">
-      <h2>Quick Start</h2>
-      <p style="margin-bottom: 1rem; color: var(--text-secondary);">
-        Start by adding exercises for each muscle group, then log your workouts with sets, weight, and reps.
+  <!-- App: shown only when signed in -->
+  <div id="appView" style="display: none;">
+    <header id="navAuth"></header>
+    <main>
+      <h1>Gym Workout Tracker</h1>
+      <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+        Track your exercises and log your workouts. Stay consistent, get stronger.
       </p>
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-        <a href="add-exercise.html" class="btn btn-primary">Add Exercise</a>
-        <a href="workout.html" class="btn btn-primary">Track Workout</a>
+      <div class="card">
+        <h2>Quick Start</h2>
+        <p style="margin-bottom: 1rem; color: var(--text-secondary);">
+          Start by adding exercises for each muscle group, then log your workouts with sets, weight, and reps.
+        </p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <a href="add-exercise.html" class="btn btn-primary">Add Exercise</a>
+          <a href="workout.html" class="btn btn-primary">Track Workout</a>
+        </div>
       </div>
-    </div>
-
-    <div class="card">
-      <h2>Muscle Groups</h2>
-      <p style="color: var(--text-secondary);">
-        Back, Biceps, Legs, Shoulders, Abs, Chest, Triceps, Compound
-      </p>
-    </div>
-  </main>
-
-  <nav class="bottom-nav">
-    <a href="index.html" class="active">Home</a>
-    <a href="add-exercise.html">Add Exercise</a>
-    <a href="workout.html">Track Workout</a>
-  </nav>
+      <div class="card">
+        <h2>Muscle Groups</h2>
+        <p style="color: var(--text-secondary);">
+          Back, Biceps, Legs, Shoulders, Abs, Chest, Triceps, Compound
+        </p>
+      </div>
+    </main>
+    <nav class="bottom-nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="add-exercise.html">Add Exercise</a>
+      <a href="workout.html">Track Workout</a>
+    </nav>
+  </div>
 
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -51,9 +59,36 @@
   <script src="js/nav-auth.js"></script>
   <script>
     if (firebaseConfig.apiKey && firebaseConfig.apiKey !== 'YOUR_API_KEY') {
-      (async () => {
-        await ensureSignedIn();
-      })();
+      initAuth();
+      if (auth) {
+        const signinPage = document.getElementById('signinPage');
+        const appView = document.getElementById('appView');
+
+        function switchView(user) {
+          if (user) {
+            signinPage.style.display = 'none';
+            appView.style.display = 'block';
+          } else {
+            signinPage.style.display = '';
+            appView.style.display = 'none';
+          }
+        }
+
+        document.getElementById('signinPageBtn').addEventListener('click', async function() {
+          this.disabled = true;
+          try {
+            await signInWithGoogle();
+          } catch (err) {
+            alert('Sign in failed: ' + (err.message || err));
+          } finally {
+            this.disabled = false;
+          }
+        });
+
+        onAuthStateChanged(switchView);
+      }
+    } else {
+      document.body.innerHTML = '<div class="signin-page"><div class="signin-box"><p class="message message-error">Configure Firebase in js/firebase-config.js</p></div></div>';
     }
   </script>
 </body>

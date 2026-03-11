@@ -6,7 +6,7 @@ A simple, mobile-friendly web app for tracking gym exercises and workouts. Uses 
 
 - **Add Exercise**: Add exercises under predefined muscle groups (Back, Biceps, Legs, Shoulders, Abs, Chest, Triceps)
 - **Track Workout**: Log workouts with 3 sets per exercise (weight + reps)
-- **Sign-in**: Google sign-in or continue as guest (anonymous)
+- **Sign-in**: Google sign-in required
 - **Persistent storage**: All data stored in Firebase Firestore (per-user)
 - **Mobile-friendly**: Responsive design for all screen sizes
 
@@ -25,7 +25,6 @@ A simple, mobile-friendly web app for tracking gym exercises and workouts. Uses 
 In Firebase Console → **Authentication** → **Sign-in method**:
 
 - Enable **Google** (add support email if prompted)
-- Enable **Anonymous** (so users can use the app without signing in; they'll be signed in as a guest)
 
 ### 3. Firestore Security Rules
 

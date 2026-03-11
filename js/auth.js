@@ -1,6 +1,5 @@
 /**
- * Firebase Authentication - Google & Anonymous sign-in
- * If user is not signed in, automatically sign in anonymously (guest mode)
+ * Firebase Authentication - Google sign-in
  */
 
 let auth = null;
@@ -13,23 +12,19 @@ function initAuth() {
 }
 
 /**
- * Ensure user is signed in. If not, sign in anonymously (guest).
- * Call this before any Firestore operations.
+ * Returns the current user if signed in, otherwise null.
+ * Waits for auth state to settle (e.g. persisted session restore).
  */
 async function ensureSignedIn() {
   if (!auth) initAuth();
   if (!auth) return null;
-
-  let user = auth.currentUser;
-  if (user) return user;
-
-  try {
-    const result = await auth.signInAnonymously();
-    return result.user;
-  } catch (err) {
-    console.error('Anonymous sign-in failed:', err);
-    return null;
-  }
+  if (auth.currentUser) return auth.currentUser;
+  return new Promise((resolve) => {
+    const unsub = auth.onAuthStateChanged((user) => {
+      unsub();
+      resolve(user);
+    });
+  });
 }
 
 /**
@@ -40,24 +35,6 @@ async function signInWithGoogle() {
   if (!auth) throw new Error('Firebase not configured');
 
   const provider = new firebase.auth.GoogleAuthProvider();
-  const currentUser = auth.currentUser;
-
-  // If current user is anonymous, link with Google to preserve data
-  if (currentUser && currentUser.isAnonymous) {
-    try {
-      const result = await currentUser.linkWithPopup(provider);
-      return result.user;
-    } catch (err) {
-      // If link fails (e.g. credential already used), sign in with Google
-      if (err.code === 'auth/credential-already-in-use') {
-        await auth.signOut();
-        const result = await auth.signInWithPopup(provider);
-        return result.user;
-      }
-      throw err;
-    }
-  }
-
   const result = await auth.signInWithPopup(provider);
   return result.user;
 }

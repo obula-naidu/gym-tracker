@@ -13,9 +13,7 @@ async function initFirebase() {
   db = firebase.firestore();
   const user = await ensureSignedIn();
   if (!user) {
-    document.getElementById('exerciseList').innerHTML =
-      '<div class="message message-error">Could not sign in. Please refresh and try again.</div>';
-    document.getElementById('addBtn').disabled = true;
+    window.location.href = 'index.html';
     return false;
   }
   return true;

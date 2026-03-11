@@ -6,30 +6,14 @@ function renderAuthNav(user) {
   if (!container) return;
 
   if (user) {
-    const isAnonymous = user.isAnonymous;
-    const label = isAnonymous ? 'Guest' : (user.displayName || user.email || 'Signed in');
+    const label = user.displayName || user.email || 'Signed in';
     container.innerHTML = `
       <span class="nav-user">${escapeHtml(label)}</span>
-      ${!isAnonymous ? '' : `<button type="button" class="btn btn-ghost nav-btn" id="navSignInGoogle">Sign in</button>`}
-      ${!isAnonymous ? `<button type="button" class="btn btn-ghost nav-btn" id="navSignOut">Sign out</button>` : ''}
+      <button type="button" class="btn btn-ghost nav-btn" id="navSignOut">Sign out</button>
     `;
 
     const signOutBtn = document.getElementById('navSignOut');
     if (signOutBtn) signOutBtn.addEventListener('click', () => signOut().then(() => {}));
-
-    const googleBtn = document.getElementById('navSignInGoogle');
-    if (googleBtn) {
-      googleBtn.addEventListener('click', async () => {
-        googleBtn.disabled = true;
-        try {
-          await signInWithGoogle();
-        } catch (err) {
-          alert('Sign in failed: ' + (err.message || err));
-        } finally {
-          googleBtn.disabled = false;
-        }
-      });
-    }
   } else {
     container.innerHTML = `
       <button type="button" class="btn btn-ghost nav-btn" id="navSignInGoogle">Sign in</button>
