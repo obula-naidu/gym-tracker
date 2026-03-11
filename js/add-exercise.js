@@ -2,7 +2,7 @@ const MUSCLE_GROUPS = ['Back', 'Biceps', 'Legs', 'Shoulders', 'Abs', 'Chest', 'T
 
 let db = null;
 
-function initFirebase() {
+async function initFirebase() {
   if (!firebaseConfig.apiKey || firebaseConfig.apiKey === 'YOUR_API_KEY') {
     document.getElementById('exerciseList').innerHTML =
       '<div class="message message-error">Configure Firebase: Edit js/firebase-config.js with your project credentials.</div>';
@@ -11,6 +11,13 @@ function initFirebase() {
   }
   if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
   db = firebase.firestore();
+  const user = await ensureSignedIn();
+  if (!user) {
+    document.getElementById('exerciseList').innerHTML =
+      '<div class="message message-error">Could not sign in. Please refresh and try again.</div>';
+    document.getElementById('addBtn').disabled = true;
+    return false;
+  }
   return true;
 }
 
@@ -25,7 +32,10 @@ function showMessage(text, isError = false) {
 }
 
 async function addExercise(muscleGroup, exerciseName) {
+  const user = getCurrentUser();
+  if (!user) throw new Error('Not signed in');
   const doc = {
+    user_id: user.uid,
     muscle_group: muscleGroup,
     exercise_name: exerciseName.trim()
   };
@@ -63,16 +73,17 @@ function setupListeners() {
 }
 
 async function loadExercises() {
-  const snapshot = await db.collection('exercises').get();
-  const exercises = snapshot.docs.map(doc => ({
+  const user = getCurrentUser();
+  if (!user) return [];
+  const snapshot = await db.collection('exercises').where('user_id', '==', user.uid).get();
+  return snapshot.docs.map(doc => ({
     id: doc.id,
     ...doc.data()
   }));
-  return exercises;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  if (!initFirebase()) return;
+  if (!(await initFirebase())) return;
 
   const defaultGroup = getDefaultMuscleGroupForDay();
   if (defaultGroup) {

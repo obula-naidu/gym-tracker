@@ -1,6 +1,6 @@
 let db = null;
 
-function initFirebase() {
+async function initFirebase() {
   if (!firebaseConfig.apiKey || firebaseConfig.apiKey === 'YOUR_API_KEY') {
     document.getElementById('workoutContent').innerHTML =
       '<div class="message message-error">Configure Firebase: Edit js/firebase-config.js with your project credentials.</div>';
@@ -8,6 +8,12 @@ function initFirebase() {
   }
   if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
   db = firebase.firestore();
+  const user = await ensureSignedIn();
+  if (!user) {
+    document.getElementById('workoutContent').innerHTML =
+      '<div class="message message-error">Could not sign in. Please refresh and try again.</div>';
+    return false;
+  }
   return true;
 }
 
@@ -22,8 +28,11 @@ function showMessage(text, isError = false) {
 }
 
 async function loadExercises(muscleGroup) {
+  const user = getCurrentUser();
+  if (!user) return [];
   const snapshot = await db
     .collection('exercises')
+    .where('user_id', '==', user.uid)
     .where('muscle_group', '==', muscleGroup)
     .get();
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -35,7 +44,10 @@ function getTodayDate() {
 }
 
 async function saveSet(muscleGroup, exerciseName, setNum, weight, reps) {
+  const user = getCurrentUser();
+  if (!user) throw new Error('Not signed in');
   const doc = {
+    user_id: user.uid,
     date: getTodayDate(),
     muscle_group: muscleGroup,
     exercise: exerciseName,
@@ -121,7 +133,7 @@ function renderWorkoutContent(exercises, muscleGroup) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  if (!initFirebase()) return;
+  if (!(await initFirebase())) return;
 
   const muscleSelect = document.getElementById('muscleGroup');
   const defaultGroup = getDefaultMuscleGroupForDay();

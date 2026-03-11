@@ -6,7 +6,8 @@ A simple, mobile-friendly web app for tracking gym exercises and workouts. Uses 
 
 - **Add Exercise**: Add exercises under predefined muscle groups (Back, Biceps, Legs, Shoulders, Abs, Chest, Triceps)
 - **Track Workout**: Log workouts with 3 sets per exercise (weight + reps)
-- **Persistent storage**: All data stored in Firebase Firestore
+- **Sign-in**: Google sign-in or continue as guest (anonymous)
+- **Persistent storage**: All data stored in Firebase Firestore (per-user)
 - **Mobile-friendly**: Responsive design for all screen sizes
 
 ## Setup
@@ -19,29 +20,26 @@ A simple, mobile-friendly web app for tracking gym exercises and workouts. Uses 
 4. Copy the `firebaseConfig` object
 5. Edit `js/firebase-config.js` and replace the placeholder values with your config
 
-### 2. Firestore Security Rules
+### 2. Enable Sign-in Methods
 
-In Firebase Console → Firestore Database → Rules, use the rules from `firestore.rules`. Or paste:
+In Firebase Console → **Authentication** → **Sign-in method**:
 
-```javascript
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /exercises/{docId} {
-      allow read, write: if true;
-    }
-    match /workout_logs/{docId} {
-      allow read, write: if true;
-    }
-  }
-}
+- Enable **Google** (add support email if prompted)
+- Enable **Anonymous** (so users can use the app without signing in; they'll be signed in as a guest)
+
+### 3. Firestore Security Rules
+
+In Firebase Console → Firestore Database → **Rules**, paste the contents of `firestore.rules`. The rules require authentication and ensure users can only access their own data.
+
+### 4. Firestore Indexes
+
+The workout page queries exercises by `user_id` and `muscle_group`. Deploy indexes via Firebase CLI:
+
+```bash
+firebase deploy --only firestore:indexes
 ```
 
-> **Note**: These rules allow unrestricted access. For production, consider adding stricter rules.
-
-### 3. Firestore Indexes
-
-For the workout page (exercises by muscle_group), Firestore will use a single-field index on `muscle_group` which is created automatically.
+Or: when you first load the workout page, Firestore may show an error with a link to create the required index in the console.
 
 ## GitHub Pages Deployment
 
@@ -64,6 +62,8 @@ obul_g/
 │   └── styles.css      # Shared styles
 ├── js/
 │   ├── firebase-config.js  # Firebase credentials (edit this!)
+│   ├── auth.js             # Google & Anonymous sign-in
+│   ├── nav-auth.js         # Auth UI in nav
 │   ├── day-defaults.js    # Day-based muscle group defaults
 │   ├── add-exercise.js    # Add exercise logic
 │   └── workout.js         # Workout tracking logic
@@ -75,6 +75,7 @@ obul_g/
 ### exercises
 ```json
 {
+  "user_id": "firebase-uid",
   "muscle_group": "Back",
   "exercise_name": "Lat Pulldown"
 }
@@ -83,6 +84,7 @@ obul_g/
 ### workout_logs
 ```json
 {
+  "user_id": "firebase-uid",
   "date": "2026-03-09",
   "muscle_group": "Back",
   "exercise": "Lat Pulldown",

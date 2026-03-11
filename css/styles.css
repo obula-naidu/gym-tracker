@@ -40,35 +40,75 @@ body::before {
   z-index: -1;
 }
 
-nav {
+/* Top bar: auth only */
+#navAuth {
   background: rgba(26, 33, 41, 0.9);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   padding: 0.75rem 1rem;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
-nav ul {
-  list-style: none;
+/* Bottom bar: Home, Add Exercise, Track Workout */
+.bottom-nav {
+  background: rgba(26, 33, 41, 0.9);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
   display: flex;
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
 }
 
-nav a {
+.nav-user {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-right: 0.25rem;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  padding: 0.5rem 1rem;
+  min-height: 44px; /* touch target for mobile */
+  font-size: 0.875rem;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-ghost:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(0, 210, 106, 0.1);
+}
+
+.bottom-nav a {
   color: var(--text-secondary);
   text-decoration: none;
   padding: 0.5rem 1rem;
+  min-height: 44px; /* touch target for mobile */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 8px;
   transition: all 0.2s;
   font-weight: 500;
+  -webkit-tap-highlight-color: transparent;
 }
 
-nav a:hover,
-nav a.active {
+.bottom-nav a:hover,
+.bottom-nav a.active {
   color: var(--accent);
   background: rgba(0, 210, 106, 0.1);
 }
@@ -77,7 +117,7 @@ main {
   max-width: 600px;
   margin: 0 auto;
   padding: 1.5rem;
-  padding-bottom: 2rem;
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom)); /* space for fixed bottom nav + notch/home indicator */
 }
 
 h1 {
@@ -282,6 +322,7 @@ input::placeholder {
 @media (max-width: 480px) {
   main {
     padding: 1rem;
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom));
   }
 
   .set-row {
@@ -289,12 +330,24 @@ input::placeholder {
     gap: 0.5rem;
   }
 
-  nav ul {
+  .bottom-nav {
     gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
   }
 
-  nav a {
+  .bottom-nav a {
     padding: 0.5rem 0.75rem;
     font-size: 0.9rem;
+    min-height: 44px;
+  }
+
+  #navAuth {
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* prevent input zoom on focus (iOS) - 16px min */
+  select, input {
+    font-size: 16px;
   }
 }
