@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0f1419">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>Track Workout | Gym Workout Tracker</title>
+  <title>Exercise Analysis | Gym Workout Tracker</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,43 +14,26 @@
 <body>
   <header id="navAuth"></header>
 
-  <main>
-    <div class="track-header">
-      <h1>Track Workout</h1>
-      <input type="date" id="workoutDate" max="">
-    </div>
-
-    <div id="message" class="message" style="display: none;"></div>
-
-    <div class="card">
-      <div class="form-group">
-        <label for="muscleGroup">Muscle Group</label>
-        <select id="muscleGroup">
-          <option value="">Select muscle group</option>
-          <option value="Back">Back</option>
-          <option value="Biceps">Biceps</option>
-          <option value="Legs">Legs</option>
-          <option value="Shoulders">Shoulders</option>
-          <option value="Abs">Abs</option>
-          <option value="Chest">Chest</option>
-          <option value="Triceps">Triceps</option>
-          <option value="Compound">Compound</option>
-        </select>
+  <main class="analysis-page">
+    <div class="analysis-header">
+      <a href="workout.html" class="back-link">← Back to Workout</a>
+      <h1 id="exerciseTitle">Exercise Analysis</h1>
+      <div class="analysis-header-actions">
+        <div id="prDisplay" class="pr-badge pr-badge-large"></div>
+        <button type="button" id="clearHistoryBtn" class="btn btn-ghost btn-danger" style="display: none;">Clear history</button>
       </div>
     </div>
 
-    <div id="workoutContent">
-      <div class="empty-state">
-        <p>Select a muscle group to load exercises and start tracking</p>
-      </div>
+    <div id="analysisContainer" class="analysis-page-container">
+      <div class="loading">Loading history…</div>
     </div>
   </main>
 
   <nav class="bottom-nav">
     <a href="index.html">Home</a>
     <a href="add-exercise.html">Add Exercise</a>
-    <a href="workout.html" class="active">Track Workout</a>
-    <a href="analysis.html">Analysis</a>
+    <a href="workout.html">Track Workout</a>
+    <a href="analysis.html" class="active">Analysis</a>
     <a href="data.html">Data</a>
   </nav>
 
@@ -61,7 +44,6 @@
   <script src="js/firebase-config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/nav-auth.js"></script>
-  <script src="js/day-defaults.js"></script>
-  <script src="js/workout.js"></script>
+  <script src="js/analysis.js"></script>
 </body>
 </html>

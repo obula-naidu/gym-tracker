@@ -32,13 +32,18 @@ In Firebase Console → Firestore Database → **Rules**, paste the contents of 
 
 ### 4. Firestore Indexes
 
-The workout page queries exercises by `user_id` and `muscle_group`. Deploy indexes via Firebase CLI:
+The app uses composite indexes for Firestore queries. Deploy them via Firebase CLI:
 
 ```bash
 firebase deploy --only firestore:indexes
 ```
 
-Or: when you first load the workout page, Firestore may show an error with a link to create the required index in the console.
+This deploys:
+
+- **exercises**: `user_id` + `muscle_group` (for loading exercises by muscle group)
+- **workout_logs**: `user_id` + `exercise` + `date` (for PR and workout history charts)
+
+Or: when you first load a page, Firestore may show an error with a link to create the required index in the console.
 
 ## GitHub Pages Deployment
 

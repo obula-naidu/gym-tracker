@@ -6,6 +6,8 @@ node_modules/
 firebase-debug.log
 firebase-debug.*.log
 *-debug.log
+*serviceAccount*.json
+*-service-account*.json
 
 # OS
 .DS_Store
