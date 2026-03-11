@@ -5,7 +5,7 @@ A simple, mobile-friendly web app for tracking gym exercises and workouts. Uses 
 ## Features
 
 - **Add Exercise**: Add exercises under predefined muscle groups (Back, Biceps, Legs, Shoulders, Abs, Chest, Triceps)
-- **Track Workout**: Log workouts with 3 sets per exercise (weight + reps)
+- **Track Workout**: Log workouts with 3 sets per exercise (weight + reps), with a date selector for logging past workouts
 - **Sign-in**: Google sign-in required
 - **Persistent storage**: All data stored in Firebase Firestore (per-user)
 - **Mobile-friendly**: Responsive design for all screen sizes

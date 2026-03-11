@@ -42,12 +42,17 @@ function getTodayDate() {
   return d.toISOString().slice(0, 10);
 }
 
+function getSelectedWorkoutDate() {
+  const input = document.getElementById('workoutDate');
+  return (input && input.value) ? input.value : getTodayDate();
+}
+
 async function saveSet(muscleGroup, exerciseName, setNum, weight, reps) {
   const user = getCurrentUser();
   if (!user) throw new Error('Not signed in');
   const doc = {
     user_id: user.uid,
-    date: getTodayDate(),
+    date: getSelectedWorkoutDate(),
     muscle_group: muscleGroup,
     exercise: exerciseName,
     set: setNum,
@@ -107,7 +112,7 @@ function createExerciseCard(exercise, muscleGroup) {
     }
 
     if (hasData) {
-      showMessage(`Workout saved for ${exerciseName}!`);
+      showMessage(`Workout saved for ${exerciseName} (${getSelectedWorkoutDate()})!`);
       card.querySelectorAll('input').forEach(i => i.value = '');
     } else {
       showMessage('Enter at least one set (weight or reps)', true);
@@ -133,6 +138,12 @@ function renderWorkoutContent(exercises, muscleGroup) {
 
 document.addEventListener('DOMContentLoaded', async () => {
   if (!(await initFirebase())) return;
+
+  const dateInput = document.getElementById('workoutDate');
+  if (dateInput) {
+    dateInput.value = getTodayDate();
+    dateInput.max = getTodayDate();
+  }
 
   const muscleSelect = document.getElementById('muscleGroup');
   const defaultGroup = getDefaultMuscleGroupForDay();

@@ -180,6 +180,26 @@ main {
   padding-bottom: calc(5rem + env(safe-area-inset-bottom)); /* space for fixed bottom nav + notch/home indicator */
 }
 
+.track-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.track-header h1 {
+  margin-bottom: 0;
+}
+
+.track-header input[type="date"] {
+  flex-shrink: 0;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  min-width: 140px;
+}
+
 h1 {
   font-size: 1.75rem;
   font-weight: 700;
@@ -214,7 +234,8 @@ select,
 input[type="text"],
 input[type="number"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="date"] {
   width: 100%;
   padding: 0.75rem 1rem;
   font-size: 1rem;
@@ -223,6 +244,7 @@ input[type="password"] {
   border-radius: 10px;
   color: var(--text-primary);
   transition: border-color 0.2s, box-shadow 0.2s;
+  color-scheme: dark;
 }
 
 select:focus,
