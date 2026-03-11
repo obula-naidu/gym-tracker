@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Workout | Gym Workout Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="add-exercise.html">Add Exercise</a></li>
+      <li><a href="workout.html" class="active">Track Workout</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <h1>Track Workout</h1>
+
+    <div id="message" class="message" style="display: none;"></div>
+
+    <div class="card">
+      <div class="form-group">
+        <label for="muscleGroup">Muscle Group</label>
+        <select id="muscleGroup">
+          <option value="">Select muscle group</option>
+          <option value="Back">Back</option>
+          <option value="Biceps">Biceps</option>
+          <option value="Legs">Legs</option>
+          <option value="Shoulders">Shoulders</option>
+          <option value="Abs">Abs</option>
+          <option value="Chest">Chest</option>
+          <option value="Triceps">Triceps</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="workoutContent">
+      <div class="empty-state">
+        <p>Select a muscle group to load exercises and start tracking</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/workout.js"></script>
+</body>
+</html>

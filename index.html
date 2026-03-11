@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gym Workout Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="add-exercise.html">Add Exercise</a></li>
+      <li><a href="workout.html">Track Workout</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <h1>Gym Workout Tracker</h1>
+    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+      Track your exercises and log your workouts. Stay consistent, get stronger.
+    </p>
+
+    <div class="card">
+      <h2>Quick Start</h2>
+      <p style="margin-bottom: 1rem; color: var(--text-secondary);">
+        Start by adding exercises for each muscle group, then log your workouts with sets, weight, and reps.
+      </p>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="add-exercise.html" class="btn btn-primary">Add Exercise</a>
+        <a href="workout.html" class="btn btn-primary">Track Workout</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Muscle Groups</h2>
+      <p style="color: var(--text-secondary);">
+        Back, Biceps, Legs, Shoulders, Abs, Chest, Triceps
+      </p>
+    </div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script>
+    // Initialize Firebase (optional on homepage, but prepares for other pages)
+    if (firebaseConfig.apiKey && firebaseConfig.apiKey !== 'YOUR_API_KEY') {
+      firebase.initializeApp(firebaseConfig);
+    }
+  </script>
+</body>
+</html>
