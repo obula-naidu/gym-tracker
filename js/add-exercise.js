@@ -9,7 +9,7 @@ function initFirebase() {
     document.getElementById('addBtn').disabled = true;
     return false;
   }
-  firebase.initializeApp(firebaseConfig);
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
   db = firebase.firestore();
   return true;
 }
@@ -73,6 +73,12 @@ async function loadExercises() {
 
 document.addEventListener('DOMContentLoaded', async () => {
   if (!initFirebase()) return;
+
+  const defaultGroup = getDefaultMuscleGroupForDay();
+  if (defaultGroup) {
+    const mg = document.getElementById('muscleGroup');
+    if (mg) mg.value = defaultGroup;
+  }
 
   try {
     allExercises = await loadExercises();

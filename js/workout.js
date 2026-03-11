@@ -6,7 +6,7 @@ function initFirebase() {
       '<div class="message message-error">Configure Firebase: Edit js/firebase-config.js with your project credentials.</div>';
     return false;
   }
-  firebase.initializeApp(firebaseConfig);
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
   db = firebase.firestore();
   return true;
 }
@@ -124,8 +124,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!initFirebase()) return;
 
   const muscleSelect = document.getElementById('muscleGroup');
+  const defaultGroup = getDefaultMuscleGroupForDay();
+  if (defaultGroup) muscleSelect.value = defaultGroup;
 
-  muscleSelect.addEventListener('change', async () => {
+  const loadByMuscleGroup = async () => {
     const muscleGroup = muscleSelect.value;
     const container = document.getElementById('workoutContent');
 
@@ -143,5 +145,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       container.innerHTML = '<div class="message message-error">Failed to load exercises. Check Firebase config.</div>';
       console.error(err);
     }
-  });
+  };
+
+  muscleSelect.addEventListener('change', loadByMuscleGroup);
+  if (defaultGroup) loadByMuscleGroup();
 });

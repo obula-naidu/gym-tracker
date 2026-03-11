@@ -21,30 +21,27 @@ A simple, mobile-friendly web app for tracking gym exercises and workouts. Uses 
 
 ### 2. Firestore Security Rules
 
-In Firebase Console → Firestore Database → Rules, add:
+In Firebase Console → Firestore Database → Rules, use the rules from `firestore.rules`. Or paste:
 
 ```javascript
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /exercises/{document=**} {
-      allow read, write: if true;  // For demo; tighten for production
+    match /exercises/{docId} {
+      allow read, write: if true;
     }
-    match /workout_logs/{document=**} {
-      allow read, write: if true;  // For demo; tighten for production
+    match /workout_logs/{docId} {
+      allow read, write: if true;
     }
   }
 }
 ```
 
-> **Note**: For production, add authentication and restrict access. These rules allow anyone to read/write.
+> **Note**: These rules allow unrestricted access. For production, consider adding stricter rules.
 
-### 3. Firestore Indexes (optional)
+### 3. Firestore Indexes
 
-For querying exercises by muscle group, Firestore may prompt you to create an index when first used. Follow the link in the error message to create it, or create manually:
-
-- **Collection**: `exercises`
-- **Fields**: `muscle_group` (Ascending)
+For the workout page (exercises by muscle_group), Firestore will use a single-field index on `muscle_group` which is created automatically.
 
 ## GitHub Pages Deployment
 
@@ -67,6 +64,7 @@ obul_g/
 │   └── styles.css      # Shared styles
 ├── js/
 │   ├── firebase-config.js  # Firebase credentials (edit this!)
+│   ├── day-defaults.js    # Day-based muscle group defaults
 │   ├── add-exercise.js    # Add exercise logic
 │   └── workout.js         # Workout tracking logic
 └── README.md
