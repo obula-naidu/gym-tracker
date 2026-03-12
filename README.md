@@ -1,4 +1,4 @@
-# Gym Workout Tracker
+# Fit Pulse
 
 A simple, mobile-friendly web app for tracking gym exercises and workouts. Uses Firebase Firestore for persistent data storage and is designed for GitHub Pages hosting.
 
@@ -9,6 +9,34 @@ A simple, mobile-friendly web app for tracking gym exercises and workouts. Uses 
 - **Sign-in**: Google sign-in required
 - **Persistent storage**: All data stored in Firebase Firestore (per-user)
 - **Mobile-friendly**: Responsive design for all screen sizes
+- **Installable PWA**: Can be installed to home screen/desktop and supports offline app shell
+
+## PWA (Installable Web App)
+
+This project now includes:
+
+- Web app manifest: [manifest.webmanifest](manifest.webmanifest)
+- Service worker: [service-worker.js](service-worker.js)
+- Offline fallback page: [offline.html](offline.html)
+- Install prompt button (when browser supports it): [js/pwa.js](js/pwa.js)
+
+### What you still need to provide
+
+1. **Final logo maintenance**
+  - The app is already wired to `icons/icon-192.png` and `icons/icon-512.png`.
+  - If you update branding later, replace those two files and redeploy.
+
+2. **HTTPS hosting**
+  - Required for service workers and installability.
+  - GitHub Pages and Firebase Hosting already satisfy this.
+
+3. **Deploy and test install flow**
+  - Open the deployed site in Chrome/Edge/Android.
+  - Look for “Install App” prompt/button.
+
+4. **Optional iOS polish**
+  - Add a dedicated Apple touch PNG icon.
+  - iOS install is still via Safari → “Add to Home Screen”.
 
 ## Setup
 

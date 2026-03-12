@@ -10,25 +10,43 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <title>Exercise Analysis | Fit Pulse</title>
+  <title>Menu | Fit Pulse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <main class="analysis-page">
-    <div class="analysis-header">
-      <a href="workout.html" class="back-link">← Back to Workout</a>
-      <h1 id="exerciseTitle">Exercise Analysis</h1>
-      <div class="analysis-header-actions">
-        <div id="prDisplay" class="pr-badge pr-badge-large"></div>
-        <button type="button" id="clearHistoryBtn" class="btn btn-ghost btn-danger" style="display: none;">Clear history</button>
+  <main>
+    <h1>Menu</h1>
+    <p id="menuGreeting" style="color: var(--text-secondary); margin-bottom: 1.5rem;">Hi</p>
+
+    <div class="card">
+      <h2>Insights</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        Open workout analysis and manage your saved data.
+      </p>
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <a href="analysis.html" class="btn btn-primary">Analysis</a>
+        <a href="data.html" class="btn btn-ghost">Data</a>
       </div>
     </div>
 
-    <div id="analysisContainer" class="analysis-page-container">
-      <div class="loading">Loading history…</div>
+    <div class="card">
+      <h2>App</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        Install Fit Pulse on your device when supported.
+      </p>
+      <button type="button" class="btn btn-primary" id="installAppBtn" hidden>Install App</button>
+      <p id="installAppHint" style="color: var(--text-secondary); font-size: 0.9rem;">Install is available when your browser supports it.</p>
+    </div>
+
+    <div class="card">
+      <h2>Account</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        Sign out of your Fit Pulse account.
+      </p>
+      <button type="button" class="btn btn-danger" id="signOutBtn">Sign out</button>
     </div>
   </main>
 
@@ -36,16 +54,15 @@
     <a href="index.html">Home</a>
     <a href="add-exercise.html">Add Exercise</a>
     <a href="workout.html">Track Workout</a>
-    <a href="settings.html">Menu</a>
+    <a href="settings.html" class="active">Menu</a>
   </nav>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/pwa.js"></script>
-  <script src="js/analysis.js"></script>
+  <script src="js/settings.js"></script>
 </body>
 </html>

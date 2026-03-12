@@ -5,15 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0f1419">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>Track Workout | Gym Workout Tracker</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>Track Workout | Fit Pulse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header id="navAuth"></header>
-
   <main>
     <div class="track-header">
       <h1>Track Workout</h1>
@@ -50,8 +53,7 @@
     <a href="index.html">Home</a>
     <a href="add-exercise.html">Add Exercise</a>
     <a href="workout.html" class="active">Track Workout</a>
-    <a href="analysis.html">Analysis</a>
-    <a href="data.html">Data</a>
+    <a href="settings.html">Menu</a>
   </nav>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -60,8 +62,8 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/nav-auth.js"></script>
   <script src="js/day-defaults.js"></script>
+  <script src="js/pwa.js"></script>
   <script src="js/workout.js"></script>
 </body>
 </html>

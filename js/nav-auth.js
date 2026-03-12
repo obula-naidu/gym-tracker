@@ -6,14 +6,7 @@ function renderAuthNav(user) {
   if (!container) return;
 
   if (user) {
-    const label = user.displayName || user.email || 'Signed in';
-    container.innerHTML = `
-      <span class="nav-user">${escapeHtml(label)}</span>
-      <button type="button" class="btn btn-ghost nav-btn" id="navSignOut">Sign out</button>
-    `;
-
-    const signOutBtn = document.getElementById('navSignOut');
-    if (signOutBtn) signOutBtn.addEventListener('click', () => signOut().then(() => {}));
+    container.innerHTML = '';
   } else {
     container.innerHTML = `
       <button type="button" class="btn btn-ghost nav-btn" id="navSignInGoogle">Sign in</button>
@@ -32,12 +25,6 @@ function renderAuthNav(user) {
       });
     }
   }
-}
-
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
