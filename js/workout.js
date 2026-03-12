@@ -414,8 +414,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   const muscleSelect = document.getElementById('muscleGroup');
+  
+  // Load saved muscle group from localStorage, but only if it was selected today
+  const today = getTodayDate();
+  const savedGroup = localStorage.getItem('selectedMuscleGroup');
+  const savedDate = localStorage.getItem('selectedMuscleGroupDate');
   const defaultGroup = getDefaultMuscleGroupForDay();
-  if (defaultGroup) muscleSelect.value = defaultGroup;
+  
+  // Use saved selection only if it's from today, otherwise use day default
+  const initialGroup = (savedDate === today) ? savedGroup : defaultGroup;
+  
+  if (initialGroup) muscleSelect.value = initialGroup;
 
   const loadByMuscleGroup = async () => {
     const muscleGroup = muscleSelect.value;
@@ -425,6 +434,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       container.innerHTML = '<div class="empty-state"><p>Select a muscle group to load exercises and start tracking</p></div>';
       return;
     }
+
+    // Save the selected muscle group and today's date to localStorage
+    localStorage.setItem('selectedMuscleGroup', muscleGroup);
+    localStorage.setItem('selectedMuscleGroupDate', today);
 
     container.innerHTML = '<div class="loading">Loading exercises</div>';
 
@@ -438,7 +451,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
 
   muscleSelect.addEventListener('change', loadByMuscleGroup);
-  if (defaultGroup) loadByMuscleGroup();
+  if (initialGroup) loadByMuscleGroup();
 
   if (dateInput) {
     dateInput.addEventListener('change', () => {
