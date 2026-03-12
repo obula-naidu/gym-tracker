@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const signOutBtn = document.getElementById('signOutBtn');
   const installBtn = document.getElementById('installAppBtn');
   const installHint = document.getElementById('installAppHint');
+  let pwaState = null;
 
   function getGreetingName(user) {
     if (!user) return '';
@@ -35,12 +36,23 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   if (installBtn && installHint && window.fitPulsePwa && window.fitPulsePwa.subscribe) {
-    window.fitPulsePwa.subscribe(function (canInstall) {
-      installBtn.hidden = !canInstall;
-      installHint.hidden = canInstall;
+    window.fitPulsePwa.subscribe(function (state) {
+      pwaState = state;
+      installBtn.hidden = state.isStandalone;
+      installBtn.textContent = state.canInstall ? 'Install App' : 'How to install';
+      installBtn.disabled = false;
+      installHint.hidden = state.isStandalone;
+      installHint.textContent = state.installHelpText;
     });
 
     installBtn.addEventListener('click', async function () {
+      if (!pwaState || pwaState.isStandalone) return;
+
+      if (!pwaState.canInstall) {
+        alert(pwaState.installHelpText);
+        return;
+      }
+
       installBtn.disabled = true;
       try {
         await window.fitPulsePwa.promptInstall();
