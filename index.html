@@ -47,6 +47,14 @@
         <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
           <a href="add-exercise.html" class="btn btn-primary">Add Exercise</a>
           <a href="workout.html" class="btn btn-primary">Track Workout</a>
+          <a href="history.html" class="btn btn-primary">History</a>
+          <a href="bodyweight.html" class="btn btn-primary">Body Weight</a>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Progress Dashboard</h2>
+        <div id="dashboardStats">
+          <p style="color:var(--text-secondary);font-size:0.9rem;">Loading stats…</p>
         </div>
       </div>
       <div class="card">
@@ -76,6 +84,8 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/user-prefs.js"></script>
+  <script src="js/dashboard.js"></script>
   <script src="js/pwa.js"></script>
   <script>
     if (firebaseConfig.apiKey && firebaseConfig.apiKey !== 'YOUR_API_KEY') {
@@ -91,6 +101,9 @@
           if (user) {
             signinPage.style.display = 'none';
             appView.style.display = 'block';
+            const app = firebase.apps[0];
+            const db = app ? app.firestore() : firebase.firestore();
+            loadDashboardStats(db).then(renderDashboardStats).catch(() => renderDashboardStats(null));
           } else {
             signinPage.style.display = 'flex';
             appView.style.display = 'none';

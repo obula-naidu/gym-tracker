@@ -32,6 +32,28 @@
     </div>
 
     <div class="card">
+      <h2>Body Weight & Notes</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        Delete bodyweight logs and workout notes.
+      </p>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+        <button type="button" id="clearBodyweightBtn" class="btn btn-danger">Clear bodyweight data</button>
+        <button type="button" id="clearNotesBtn" class="btn btn-danger">Clear workout notes</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Export</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        Download your data as JSON or CSV.
+      </p>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+        <button type="button" id="exportJsonBtn" class="btn btn-primary">Export JSON</button>
+        <button type="button" id="exportCsvBtn" class="btn btn-ghost">Export CSV</button>
+      </div>
+    </div>
+
+    <div class="card">
       <h2>Exercises</h2>
       <p style="color: var(--text-secondary); margin-bottom: 1rem;">
         Delete all your saved exercises. Workout logs will not be affected, but they may reference exercises you removed.
@@ -52,6 +74,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/user-prefs.js"></script>
   <script src="js/pwa.js"></script>
   <script src="js/data.js"></script>
 </body>

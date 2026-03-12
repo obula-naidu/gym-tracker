@@ -75,19 +75,40 @@ async function deleteWorkoutLogsForExercise(exerciseName) {
 }
 
 function computePR(logs) {
+  function getSetVolume(log) {
+    const weight = parseFloat(log.weight) || 0;
+    const reps = parseInt(log.reps, 10) || 0;
+    const multiplier = log.weight_mode === 'per_side' ? 2 : 1;
+    return weight * reps * multiplier;
+  }
+
   let bestSet = null;
+  let bestVolume = 0;
+  let bestOneRm = 0;
   logs.forEach(log => {
     const w = parseFloat(log.weight) || 0;
     const r = parseInt(log.reps, 10) || 0;
-    const volume = w * r;
-    if (volume > 0 && (!bestSet || volume > bestSet.weight * bestSet.reps)) {
+    const volume = getSetVolume(log);
+    if (volume > 0 && (!bestSet || volume > bestVolume)) {
       bestSet = { weight: w, reps: r };
+      bestVolume = volume;
+    }
+    if (w > 0 && r > 0) {
+      const oneRm = w * (1 + r / 30);
+      if (oneRm > bestOneRm) bestOneRm = oneRm;
     }
   });
-  return bestSet;
+  return { bestSet, bestOneRm };
 }
 
 function aggregateByDate(logs) {
+  function getSetVolume(log) {
+    const weight = parseFloat(log.weight) || 0;
+    const reps = parseInt(log.reps, 10) || 0;
+    const multiplier = log.weight_mode === 'per_side' ? 2 : 1;
+    return weight * reps * multiplier;
+  }
+
   const byDate = {};
   logs.forEach(log => {
     const d = log.date;
@@ -97,7 +118,7 @@ function aggregateByDate(logs) {
     const setNum = parseInt(log.set, 10) || 0;
     if (w > byDate[d].maxWeight) byDate[d].maxWeight = w;
     if (r > byDate[d].maxReps) byDate[d].maxReps = r;
-    byDate[d].totalVolume += w * r;
+    byDate[d].totalVolume += getSetVolume(log);
     if (w > 0 || r > 0) byDate[d].sets.push({ set: setNum, weight: w, reps: r });
   });
   Object.values(byDate).forEach(day => day.sets.sort((a, b) => a.set - b.set));
@@ -114,6 +135,7 @@ function formatSetsDisplay(sets) {
 }
 
 function renderAnalysis(container, aggregated, exerciseName) {
+  const unit = getWeightUnit();
   if (!aggregated || aggregated.length === 0) {
     container.innerHTML = '<div class="analysis-empty">No previous workouts for this exercise.</div>';
     return;
@@ -134,7 +156,7 @@ function renderAnalysis(container, aggregated, exerciseName) {
     ${aggregated.map(a => {
       const dateLabel = new Date(a.date + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
       const setsStr = formatSetsDisplay(a.sets);
-      const maxStr = a.maxWeight > 0 ? `${a.maxWeight} kg` : '—';
+      const maxStr = a.maxWeight > 0 ? `${a.maxWeight} ${unit}` : '—';
       const volStr = a.totalVolume > 0 ? Math.round(a.totalVolume).toLocaleString() : '—';
       return `<div class="analysis-table-row">
         <span>${dateLabel}</span>
@@ -171,7 +193,7 @@ function renderAnalysis(container, aggregated, exerciseName) {
       labels,
       datasets: [
         {
-          label: 'Max Weight (kg)',
+          label: `Max Weight (${unit})`,
           data: weights,
           borderColor: 'rgba(0, 210, 106, 0.9)',
           backgroundColor: 'rgba(0, 210, 106, 0.15)',
@@ -218,7 +240,7 @@ function renderAnalysis(container, aggregated, exerciseName) {
           type: 'linear',
           position: 'left',
           beginAtZero: true,
-          title: { display: true, text: 'Weight (kg)' }
+          title: { display: true, text: `Weight (${unit})` }
         },
         y1: {
           type: 'linear',
@@ -239,6 +261,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const container = document.getElementById('analysisContainer');
   const titleEl = document.getElementById('exerciseTitle');
   const prEl = document.getElementById('prDisplay');
+  const oneRmEl = document.getElementById('oneRmDisplay');
 
   if (!exerciseName) {
     titleEl.textContent = 'Exercise Analysis';
@@ -251,15 +274,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     const logs = await loadWorkoutHistory(exerciseName);
     const pr = computePR(logs);
+    const unit = getWeightUnit();
     const aggregated = aggregateByDate(logs);
 
-    if (pr && pr.weight > 0 && pr.reps > 0) {
-      prEl.textContent = `PR: ${pr.weight} kg × ${pr.reps} reps`;
+    if (pr.bestSet && pr.bestSet.weight > 0 && pr.bestSet.reps > 0) {
+      prEl.textContent = `PR: ${pr.bestSet.weight} ${unit} × ${pr.bestSet.reps} reps`;
       prEl.classList.remove('pr-empty');
     } else {
       prEl.textContent = 'PR: —';
       prEl.classList.add('pr-empty');
     }
+
+    oneRmEl.textContent = pr.bestOneRm > 0 ? `1RM: ${Math.round(pr.bestOneRm)} ${unit}` : '1RM: —';
 
     renderAnalysis(container, aggregated, exerciseName);
 
@@ -273,6 +299,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
           await deleteWorkoutLogsForExercise(exerciseName);
           prEl.textContent = 'PR: —';
+          oneRmEl.textContent = '1RM: —';
           prEl.classList.add('pr-empty');
           renderAnalysis(container, [], exerciseName);
           clearBtn.style.display = 'none';

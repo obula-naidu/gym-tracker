@@ -10,26 +10,25 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <title>Exercise Analysis | Fit Pulse</title>
+  <title>History | Fit Pulse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <main class="analysis-page">
-    <div class="analysis-header">
-      <a href="workout.html" class="back-link">← Back to Workout</a>
-      <h1 id="exerciseTitle">Exercise Analysis</h1>
-      <div class="analysis-header-actions">
-        <div id="prDisplay" class="pr-badge pr-badge-large"></div>
-        <div id="oneRmDisplay" class="pr-badge pr-badge-large"></div>
-        <button type="button" id="clearHistoryBtn" class="btn btn-ghost btn-danger" style="display: none;">Clear history</button>
-      </div>
+  <main>
+    <a href="workout.html" class="back-link" id="contextBackLink" style="display:none;">← Back to Workout</a>
+    <h1>Workout History</h1>
+
+    <div class="history-date-nav">
+      <button type="button" id="prevDayBtn" class="btn btn-ghost btn-sm">← Prev</button>
+      <input type="date" id="historyDate">
+      <button type="button" id="nextDayBtn" class="btn btn-ghost btn-sm">Next →</button>
     </div>
 
-    <div id="analysisContainer" class="analysis-page-container">
-      <div class="loading">Loading history…</div>
+    <div id="historyContent">
+      <div class="loading">Loading…</div>
     </div>
   </main>
 
@@ -40,7 +39,6 @@
     <a href="settings.html">Menu</a>
   </nav>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -48,6 +46,38 @@
   <script src="js/auth.js"></script>
   <script src="js/user-prefs.js"></script>
   <script src="js/pwa.js"></script>
-  <script src="js/analysis.js"></script>
+  <script src="js/history.js"></script>
+  <script>
+    (function () {
+      const link = document.getElementById('contextBackLink');
+      if (!link) return;
+
+      const ref = document.referrer || '';
+      if (!ref) return;
+
+      let url;
+      try {
+        url = new URL(ref);
+      } catch (e) {
+        return;
+      }
+
+      if (url.origin !== window.location.origin) return;
+
+      const page = (url.pathname.split('/').pop() || '').toLowerCase();
+      if (page === 'workout.html') {
+        link.href = 'workout.html';
+        link.textContent = '← Back to Workout';
+        link.style.display = 'inline-flex';
+        return;
+      }
+
+      if (page === 'index.html' || page === '') {
+        link.href = 'index.html';
+        link.textContent = '← Back to Home';
+        link.style.display = 'inline-flex';
+      }
+    })();
+  </script>
 </body>
 </html>

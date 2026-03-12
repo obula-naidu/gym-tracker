@@ -44,8 +44,26 @@
           <input type="text" id="exerciseName" placeholder="e.g. Lat Pulldown" required>
         </div>
 
+        <div class="form-group">
+          <label for="weightMode">Tracking Mode</label>
+          <select id="weightMode">
+            <option value="total">Total weight</option>
+            <option value="per_side">Per side</option>
+          </select>
+        </div>
+
         <button type="submit" class="btn btn-primary" id="addBtn">Add Exercise</button>
       </form>
+    </div>
+
+    <div class="card">
+      <h2>Custom Muscle Groups</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">Create your own categories (e.g. Forearms, Cardio).</p>
+      <div class="action-row" style="margin-top:0;">
+        <input type="text" id="customGroupInput" placeholder="New muscle group" maxlength="24" style="flex:1; min-width:180px;">
+        <button type="button" class="btn btn-ghost" id="addCustomGroupBtn">Add Group</button>
+      </div>
+      <div id="customGroupsList" style="margin-top:0.75rem;"></div>
     </div>
 
     <h2>Saved Exercises</h2>
@@ -65,6 +83,7 @@
   <script src="js/firebase-config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/day-defaults.js"></script>
+  <script src="js/user-prefs.js"></script>
   <script src="js/pwa.js"></script>
   <script src="js/add-exercise.js"></script>
 </body>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0f1419">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>Routines | Fit Pulse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <main>
+    <a href="workout.html" class="back-link" id="contextBackLink" style="display:none;">← Back to Workout</a>
+    <h1>Routines</h1>
+    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+      Save workout plans and start them with one tap.
+    </p>
+
+    <div class="card">
+      <h2>Create Routine</h2>
+      <form id="routineForm">
+        <div class="form-group">
+          <label for="routineName">Name</label>
+          <input type="text" id="routineName" placeholder="e.g. Push Day, Pull Day, Leg Day…" maxlength="40">
+        </div>
+        <div class="form-group">
+          <label>Muscle Groups</label>
+          <div id="routineGroupPicker" class="routine-group-picker"></div>
+        </div>
+        <div class="form-group">
+          <label>Exercises</label>
+          <div id="routineExercisePicker" class="routine-exercise-picker">
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Select muscle groups to load exercises.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="routineNotes">Notes (optional)</label>
+          <textarea id="routineNotes" class="notes-input" placeholder="e.g. 90s rest, 4 sets each" rows="2"></textarea>
+        </div>
+        <div id="routineMessage" class="message" style="display:none;"></div>
+        <button type="submit" class="btn btn-primary">Save Routine</button>
+      </form>
+    </div>
+
+    <div id="routinesList"></div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html">Home</a>
+    <a href="add-exercise.html">Add Exercise</a>
+    <a href="workout.html">Track Workout</a>
+    <a href="settings.html">Menu</a>
+  </nav>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/user-prefs.js"></script>
+  <script src="js/pwa.js"></script>
+  <script src="js/routines.js"></script>
+  <script>
+    (function () {
+      const link = document.getElementById('contextBackLink');
+      if (!link) return;
+
+      const ref = document.referrer || '';
+      if (!ref) return;
+
+      let url;
+      try {
+        url = new URL(ref);
+      } catch (e) {
+        return;
+      }
+
+      if (url.origin !== window.location.origin) return;
+
+      const page = (url.pathname.split('/').pop() || '').toLowerCase();
+      if (page === 'workout.html') {
+        link.href = 'workout.html';
+        link.textContent = '← Back to Workout';
+        link.style.display = 'inline-flex';
+        return;
+      }
+
+      if (page === 'index.html' || page === '') {
+        link.href = 'index.html';
+        link.textContent = '← Back to Home';
+        link.style.display = 'inline-flex';
+      }
+    })();
+  </script>
+</body>
+</html>

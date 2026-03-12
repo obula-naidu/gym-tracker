@@ -10,26 +10,43 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <title>Exercise Analysis | Fit Pulse</title>
+  <title>Body Weight | Fit Pulse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <main class="analysis-page">
-    <div class="analysis-header">
-      <a href="workout.html" class="back-link">← Back to Workout</a>
-      <h1 id="exerciseTitle">Exercise Analysis</h1>
-      <div class="analysis-header-actions">
-        <div id="prDisplay" class="pr-badge pr-badge-large"></div>
-        <div id="oneRmDisplay" class="pr-badge pr-badge-large"></div>
-        <button type="button" id="clearHistoryBtn" class="btn btn-ghost btn-danger" style="display: none;">Clear history</button>
+  <main>
+    <h1>Body Weight</h1>
+
+    <div class="card">
+      <h2>Log Today's Weight</h2>
+      <form id="bodyweightForm">
+        <div class="form-group">
+          <label for="bwDate">Date</label>
+          <input type="date" id="bwDate">
+        </div>
+        <div class="form-group">
+          <label for="bwWeight" id="bwWeightLabel">Weight (kg)</label>
+          <input type="number" id="bwWeight" step="0.1" min="20" max="500" placeholder="e.g. 75.5" inputmode="decimal">
+        </div>
+        <div id="bwMessage" class="message" style="display:none;"></div>
+        <button type="submit" id="bwSaveBtn" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Progress</h2>
+      <div id="bwStats" style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1rem;"></div>
+      <div id="bwChartWrap" style="max-height:220px;">
+        <div class="empty-state" style="padding:1rem;"><p>No data yet.</p></div>
       </div>
     </div>
 
-    <div id="analysisContainer" class="analysis-page-container">
-      <div class="loading">Loading history…</div>
+    <div class="card">
+      <h2>History</h2>
+      <div id="bwList"><div class="empty-state"><p>No entries yet.</p></div></div>
     </div>
   </main>
 
@@ -48,6 +65,6 @@
   <script src="js/auth.js"></script>
   <script src="js/user-prefs.js"></script>
   <script src="js/pwa.js"></script>
-  <script src="js/analysis.js"></script>
+  <script src="js/bodyweight.js"></script>
 </body>
 </html>

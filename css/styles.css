@@ -11,6 +11,18 @@
   --error: #f87171;
 }
 
+:root[data-theme="light"] {
+  --bg-primary: #f3f6fb;
+  --bg-secondary: #e7edf5;
+  --bg-card: #ffffff;
+  --accent: #00a854;
+  --accent-hover: #008f47;
+  --text-primary: #122133;
+  --text-secondary: #4d6178;
+  --border: #cfdae8;
+  --error: #d64545;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -226,7 +238,8 @@ input[type="text"],
 input[type="number"],
 input[type="email"],
 input[type="password"],
-input[type="date"] {
+input[type="date"],
+textarea {
   width: 100%;
   padding: 0.75rem 1rem;
   font-size: 1rem;
@@ -239,7 +252,8 @@ input[type="date"] {
 }
 
 select:focus,
-input:focus {
+input:focus,
+textarea:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(0, 210, 106, 0.2);
@@ -262,6 +276,13 @@ input::placeholder {
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s;
+  min-width: 0;
+}
+
+.btn-sm {
+  padding: 0.45rem 0.75rem;
+  min-height: 36px;
+  font-size: 0.85rem;
 }
 
 .btn-primary {
@@ -318,6 +339,31 @@ input::placeholder {
 .exercise-name {
   font-weight: 600;
   font-size: 1.1rem;
+  min-width: 0;
+}
+
+.exercise-mode-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  background: rgba(148, 163, 184, 0.12);
+  padding: 0.22rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.exercise-mode-badge.is-per-side {
+  color: #ffd166;
+  background: rgba(255, 209, 102, 0.14);
+  border-color: rgba(255, 209, 102, 0.3);
+}
+
+.exercise-mode-line {
+  width: 100%;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-secondary);
 }
 
 .pr-badge {
@@ -328,6 +374,7 @@ input::placeholder {
   padding: 0.25rem 0.5rem;
   border-radius: 6px;
   border: 1px solid rgba(0, 210, 106, 0.3);
+  min-width: 0;
 }
 
 .pr-badge.pr-empty {
@@ -419,10 +466,23 @@ input::placeholder {
 /* Set rows */
 .set-row {
   display: grid;
-  grid-template-columns: auto 1fr 1fr;
+  grid-template-columns: auto minmax(6.5rem, 0.9fr) 1fr 1fr;
   gap: 0.75rem;
   align-items: center;
   margin-bottom: 0.75rem;
+}
+
+.set-row-header {
+  margin-bottom: 0.35rem;
+}
+
+.set-col-header,
+.set-row-header .set-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .set-label {
@@ -433,6 +493,24 @@ input::placeholder {
 
 .set-row input {
   padding: 0.5rem;
+}
+
+.set-type {
+  min-height: 40px;
+}
+
+.notes-input {
+  width: 100%;
+  resize: vertical;
+  min-height: 64px;
+}
+
+.workout-note-group {
+  margin-bottom: 0.4rem;
+}
+
+.workout-note-group + .action-row {
+  margin-top: 0.2rem;
 }
 
 .action-row {
@@ -505,6 +583,18 @@ input::placeholder {
   display: inline-flex;
 }
 
+.mode-toggle {
+  display: inline-flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.mode-toggle .btn.active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(0, 210, 106, 0.12);
+}
+
 /* Exercise list */
 .exercise-list {
   list-style: none;
@@ -518,6 +608,230 @@ input::placeholder {
   background: var(--bg-secondary);
   border-radius: 8px;
   margin-bottom: 0.5rem;
+}
+
+.exercise-list-item-main {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.stat-item {
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+}
+
+.streak-fire {
+  margin-right: 0.15rem;
+}
+
+.history-date-nav {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.history-date-nav input {
+  flex: 1;
+}
+
+.history-summary {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.history-summary-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+  min-width: 88px;
+  display: flex;
+  flex-direction: column;
+}
+
+.history-summary-value {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.history-summary-label {
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+}
+
+.history-session {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+  padding: 0.85rem;
+}
+
+.history-session-title {
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+
+.history-exercise-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0;
+  border-top: 1px dashed var(--border);
+}
+
+.history-exercise-item:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.history-sets-str {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.history-volume {
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.routine-group-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.routine-exercise-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.routine-exercise-group {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem;
+}
+
+.routine-exercise-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.routine-exercise-label {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.group-check-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 0.3rem 0.65rem;
+  background: var(--bg-secondary);
+}
+
+.routine-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.routine-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.routine-name {
+  font-weight: 700;
+}
+
+.routine-groups,
+.routine-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.65rem;
+}
+
+.routine-group-tag {
+  background: rgba(0, 210, 106, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(0, 210, 106, 0.35);
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.8rem;
+}
+
+.routine-notes {
+  margin-top: 0.6rem;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+}
+
+.bodyweight-list {
+  list-style: none;
+}
+
+.bodyweight-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.6rem 0.2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.bodyweight-date {
+  color: var(--text-secondary);
+}
+
+.bodyweight-value {
+  font-weight: 700;
+}
+
+.bodyweight-delete {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 0.15rem 0.45rem;
 }
 
 /* Messages */
@@ -615,24 +929,52 @@ html {
   }
 
   .exercise-header-left {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.4rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 0.35rem;
+    width: 100%;
   }
 
   .exercise-name {
     font-size: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .pr-badge {
     font-size: 0.7rem;
     padding: 0.2rem 0.4rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+
+  .exercise-mode-badge {
+    font-size: 0.66rem;
+    padding: 0.18rem 0.42rem;
+  }
+
+  .exercise-mode-line {
+    font-size: 0.7rem;
   }
 
   .set-row {
-    grid-template-columns: 2.5rem 1fr 1fr;
+    grid-template-columns: 2.2rem minmax(5.5rem, 0.85fr) 1fr 1fr;
     gap: 0.5rem;
     margin-bottom: 0.5rem;
+  }
+
+  .set-row-header {
+    margin-bottom: 0.25rem;
+  }
+
+  .set-col-header,
+  .set-row-header .set-label {
+    font-size: 0.64rem;
+    letter-spacing: 0.02em;
   }
 
   .set-row input {
@@ -641,18 +983,36 @@ html {
     font-size: 16px;
   }
 
+  .set-type {
+    font-size: 0.8rem;
+    padding-left: 0.45rem;
+    padding-right: 0.75rem;
+  }
+
   .action-row {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
     margin-top: 0.75rem;
+  }
+
+  .notes-input {
+    min-height: 54px;
+  }
+
+  .form-group + .action-row {
+    margin-top: 0.5rem;
   }
 
   .action-row .btn,
   .action-row a.btn {
     width: 100%;
-    min-height: 48px;
+    min-height: 44px;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 0.92rem;
+    padding-inline: 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .bottom-nav {
@@ -664,8 +1024,11 @@ html {
 
   .bottom-nav a {
     padding: 0.4rem 0.35rem;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     min-height: 44px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   h1 {
@@ -681,6 +1044,21 @@ html {
   select, input[type="text"], input[type="number"], input[type="email"], input[type="date"] {
     font-size: 16px;
   }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .history-date-nav {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .history-date-nav input {
+    width: 100%;
+    min-width: 0;
+  }
 }
 
 /* Analysis page mobile */
@@ -691,6 +1069,22 @@ html {
 
   .analysis-header {
     margin-bottom: 1rem;
+  }
+
+  .analysis-header-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .analysis-header-actions .btn,
+  .analysis-header-actions .pr-badge {
+    width: 100%;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .analysis-header .back-link {
@@ -737,7 +1131,7 @@ html {
 /* Extra small screens (very narrow phones) */
 @media (max-width: 360px) {
   .bottom-nav a {
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     padding: 0.4rem 0.25rem;
   }
 
@@ -748,5 +1142,13 @@ html {
 
   .exercise-name {
     font-size: 0.95rem;
+  }
+
+  .exercise-header-left {
+    grid-template-columns: 1fr;
+  }
+
+  .analysis-header-actions {
+    grid-template-columns: 1fr;
   }
 }

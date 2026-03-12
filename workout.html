@@ -25,20 +25,42 @@
 
     <div id="message" class="message" style="display: none;"></div>
 
+    <div class="card" id="restTimerCard">
+      <div class="card-header" style="margin-bottom:0.75rem;">
+        <h2 style="margin:0;">Rest Timer</h2>
+        <span id="restTimerDisplay" class="pr-badge pr-badge-large">--:--</span>
+      </div>
+      <div class="action-row" style="margin-top:0;">
+        <button type="button" id="restStartBtn" class="btn btn-primary btn-sm">Start</button>
+        <button type="button" id="restStopBtn" class="btn btn-ghost btn-sm">Stop</button>
+      </div>
+    </div>
+
     <div class="card">
       <div class="form-group">
+        <label>Mode</label>
+        <div class="mode-toggle" id="workoutModeToggle">
+          <button type="button" id="modeGroupBtn" class="btn btn-ghost btn-sm active">Muscle Group</button>
+          <button type="button" id="modeRoutineBtn" class="btn btn-ghost btn-sm">Routine</button>
+        </div>
+      </div>
+
+      <div class="form-group" id="muscleGroupControl">
         <label for="muscleGroup">Muscle Group</label>
         <select id="muscleGroup">
           <option value="">Select muscle group</option>
-          <option value="Back">Back</option>
-          <option value="Biceps">Biceps</option>
-          <option value="Legs">Legs</option>
-          <option value="Shoulders">Shoulders</option>
-          <option value="Abs">Abs</option>
-          <option value="Chest">Chest</option>
-          <option value="Triceps">Triceps</option>
-          <option value="Compound">Compound</option>
         </select>
+      </div>
+
+      <div class="form-group" id="routineControl" style="display: none;">
+        <label for="routineSelect">Routine</label>
+        <select id="routineSelect">
+          <option value="">Select routine</option>
+        </select>
+      </div>
+      <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+        <a href="history.html" id="viewHistoryLink" class="btn btn-ghost btn-sm">View History</a>
+        <a href="routines.html" id="createRoutineLink" class="btn btn-ghost btn-sm" style="display: none;">Create Routine</a>
       </div>
     </div>
 
@@ -63,6 +85,7 @@
   <script src="js/firebase-config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/day-defaults.js"></script>
+  <script src="js/user-prefs.js"></script>
   <script src="js/pwa.js"></script>
   <script src="js/workout.js"></script>
 </body>

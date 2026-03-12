@@ -28,8 +28,41 @@
       </p>
       <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
         <a href="analysis.html" class="btn btn-primary">Analysis</a>
-        <a href="data.html" class="btn btn-ghost">Data</a>
+        <a href="history.html" class="btn btn-primary">History</a>
+        <a href="bodyweight.html" class="btn btn-primary">Body Weight</a>
+        <a href="routines.html" class="btn btn-primary">Routines</a>
+        <a href="data.html" class="btn btn-primary">Data</a>
       </div>
+    </div>
+
+    <div class="card">
+      <h2>Preferences</h2>
+      <div class="form-group">
+        <label for="weightUnitSelect">Weight unit</label>
+        <select id="weightUnitSelect">
+          <option value="kg">kg</option>
+          <option value="lbs">lbs</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="themeSelect">Theme</label>
+        <select id="themeSelect">
+          <option value="dark">Dark</option>
+          <option value="light">Light</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="restSecondsInput">Default rest timer (seconds)</label>
+        <input type="number" id="restSecondsInput" min="15" max="600" step="5">
+      </div>
+      <div class="form-group">
+        <label>Day mapping (muscle group or routine)</label>
+        <div id="dayMappingList"></div>
+        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.5rem;">
+          Choose what opens by default each day in Track Workout.
+        </p>
+      </div>
+      <button type="button" class="btn btn-primary" id="savePrefsBtn">Save Preferences</button>
     </div>
 
     <div class="card">
@@ -62,6 +95,8 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/day-defaults.js"></script>
+  <script src="js/user-prefs.js"></script>
   <script src="js/pwa.js"></script>
   <script src="js/settings.js"></script>
 </body>
